@@ -1,9 +1,12 @@
 package br.com.neurotech.challenge.service.impl;
 
 import br.com.neurotech.challenge.dto.CreateClientDTO;
+import br.com.neurotech.challenge.dto.ResponseClientDTO;
 import br.com.neurotech.challenge.entity.NeurotechClient;
 import br.com.neurotech.challenge.repository.ClientRepository;
 import br.com.neurotech.challenge.service.ClientService;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,16 +17,19 @@ public class ClientServiceImpl implements ClientService {
     private ClientRepository clientRepository;
 
     @Override
-    public NeurotechClient save(CreateClientDTO client) {
+    public String save(CreateClientDTO client) {
         NeurotechClient neurotechClient = new NeurotechClient(client);
 
         clientRepository.save(neurotechClient);
 
-        return neurotechClient;
+        return neurotechClient.getId().toString();
     }
 
     @Override
-    public NeurotechClient get(String id) {
-        return null;
+    public ResponseClientDTO get(String id) {
+        NeurotechClient client = clientRepository.findById(Long.parseLong(id))
+                .orElseThrow(() -> new EntityNotFoundException("Client não encontrado."));
+
+        return new ResponseClientDTO(client);
     }
 }

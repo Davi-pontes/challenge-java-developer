@@ -15,6 +15,10 @@ public class NeurotechClient {
 	private Integer age;
 	private Double income;
 
+	public NeurotechClient(){
+
+	}
+
 	public NeurotechClient(CreateClientDTO clientDTO){
 		this.name = clientDTO.name();
 		this.age = clientDTO.age();
