@@ -53,12 +53,9 @@ class ClientServiceImplTest {
         String id = clientService.save(dto);
 
         assertEquals("1", id);
-
         verify(creditEvaluatorService).evaluate(25, 4000.0);
-
         verify(clientRepository).save(any(NeurotechClient.class));
     }
-
     @Test
     @DisplayName("Deve retornar os dados de um cliente existente pelo ID")
     void get() {
@@ -77,7 +74,6 @@ class ClientServiceImplTest {
         assertEquals(65, response.age());
         verify(clientRepository).findById(2L);
     }
-
     @Test
     @DisplayName("Deve lançar exceção quando o cliente não for encontrado")
     void getShouldThrowExceptionWhenClientDoesNotExist() {

@@ -2,6 +2,7 @@ package br.com.neurotech.challenge.controller;
 
 import br.com.neurotech.challenge.dto.CreateClientDTO;
 import br.com.neurotech.challenge.dto.ResponseClientDTO;
+import br.com.neurotech.challenge.dto.ResponseClientEligibleForHatch;
 import br.com.neurotech.challenge.dto.ResponseCreditEligibility;
 import br.com.neurotech.challenge.entity.NeurotechClient;
 import br.com.neurotech.challenge.entity.VehicleModel;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/client")
@@ -102,5 +104,20 @@ public class ClientController {
         ResponseCreditEligibility responseCreditEligibility = creditService.checkCredit(clientId,model);
 
         return ResponseEntity.ok(responseCreditEligibility);
+    }
+    @GetMapping("/eligible/hatch-fixed-credit")
+    @Operation(
+            summary = "Listar clientes elegíveis para crédito Hatch com juros fixos",
+            description = "Retorna os clientes com idade entre 23 e 25 anos, que possuem crédito com juros fixos e renda entre R$ 5.000,00 e R$ 15.000,00, sendo elegíveis para aquisição de veículos do tipo Hatch."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de clientes elegíveis retornada com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseClientEligibleForHatch.class))),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
+    public ResponseEntity<List<ResponseClientEligibleForHatch>> getEligibleClientForHatchWithFixedCredit(){
+        List<ResponseClientEligibleForHatch> clientsEligible = clientService.getEligibleClientsForHatchWithFixedCredit();
+
+        return ResponseEntity.ok(clientsEligible);
     }
 }
