@@ -17,14 +17,12 @@ class CreditEvaluatorServiceImplTest {
         assertEquals(CreditType.JUROS_FIXOS, evaluator.evaluate(18, 1000));
         assertEquals(CreditType.JUROS_FIXOS, evaluator.evaluate(25, 3000));
     }
-
     @Test
     @DisplayName("Deve retornar CONSIGNADO para clientes com mais de 65 anos")
     void shouldReturnConsignadoForSeniors() {
         assertEquals(CreditType.CONSIGNADO, evaluator.evaluate(66, 2000));
         assertEquals(CreditType.CONSIGNADO, evaluator.evaluate(80, 5000));
     }
-
     @Test
     @DisplayName("Deve retornar JUROS_VARIAVEIS para adultos entre 21 e 65 com renda entre 5000 e 15000")
     void shouldReturnJurosVariaveisForAdultsWithStableIncome() {
