@@ -52,7 +52,7 @@ Para rodar os testes automatizados:
 - Banco: H2(em memória)
 - Console Web: Disponível em http://localhost:8080/h2-console
 - Credenciais padrão:
-  - JDBC URL: jdbc:h2:mem:testdb
+  - JDBC URL: jdbc:h2:mem:challenge-neurotech
   - Usuário: admin
   - Senha: admin
 > O banco H2 é embarcado e já vem configurado no projeto. Não é necessário instalar nada separadamente.
