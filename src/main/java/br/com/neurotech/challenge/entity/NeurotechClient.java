@@ -15,13 +15,17 @@ public class NeurotechClient {
 	private Integer age;
 	private Double income;
 
+	@Enumerated(EnumType.STRING)
+	private CreditType creditType;
+
 	public NeurotechClient(){
 
 	}
 
-	public NeurotechClient(CreateClientDTO clientDTO){
+	public NeurotechClient(CreateClientDTO clientDTO, CreditType creditType1){
 		this.name = clientDTO.name();
 		this.age = clientDTO.age();
 		this.income = clientDTO.income();
+		this.creditType = creditType1;
 	}
 }

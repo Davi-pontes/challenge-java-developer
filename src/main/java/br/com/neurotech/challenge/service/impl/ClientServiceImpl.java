@@ -2,6 +2,7 @@ package br.com.neurotech.challenge.service.impl;
 
 import br.com.neurotech.challenge.dto.CreateClientDTO;
 import br.com.neurotech.challenge.dto.ResponseClientDTO;
+import br.com.neurotech.challenge.entity.CreditType;
 import br.com.neurotech.challenge.entity.NeurotechClient;
 import br.com.neurotech.challenge.repository.ClientRepository;
 import br.com.neurotech.challenge.service.ClientService;
@@ -16,9 +17,15 @@ public class ClientServiceImpl implements ClientService {
     @Autowired
     private ClientRepository clientRepository;
 
+    @Autowired
+    private CreditEvaluatorServiceImpl creditEvaluatorService;
+
     @Override
     public String save(CreateClientDTO client) {
-        NeurotechClient neurotechClient = new NeurotechClient(client);
+
+        CreditType creditType = creditEvaluatorService.evaluate(client.age(),client.income());
+
+        NeurotechClient neurotechClient = new NeurotechClient(client,creditType);
 
         clientRepository.save(neurotechClient);
 

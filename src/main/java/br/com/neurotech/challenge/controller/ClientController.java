@@ -2,8 +2,12 @@ package br.com.neurotech.challenge.controller;
 
 import br.com.neurotech.challenge.dto.CreateClientDTO;
 import br.com.neurotech.challenge.dto.ResponseClientDTO;
+import br.com.neurotech.challenge.dto.ResponseCreditEligibility;
 import br.com.neurotech.challenge.entity.NeurotechClient;
+import br.com.neurotech.challenge.entity.VehicleModel;
+import br.com.neurotech.challenge.service.CreditService;
 import br.com.neurotech.challenge.service.impl.ClientServiceImpl;
+import br.com.neurotech.challenge.service.impl.CreditServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -26,9 +30,11 @@ import java.net.URI;
 public class ClientController {
 
     private final ClientServiceImpl clientService;
+    private final CreditServiceImpl creditService;
 
-    public ClientController(ClientServiceImpl clientService) {
+    public ClientController(ClientServiceImpl clientService, CreditServiceImpl creditService) {
         this.clientService = clientService;
+        this.creditService = creditService;
     }
 
     @PostMapping
@@ -70,5 +76,14 @@ public class ClientController {
         ResponseClientDTO clientDTO = clientService.get(clientId);
 
         return  ResponseEntity.ok(clientDTO);
+    }
+    @GetMapping("/{id}/car-credit")
+    public ResponseEntity<ResponseCreditEligibility> checkCarCreditEligibility(
+            @PathVariable("id") String clientId,
+            @RequestParam VehicleModel model
+    ){
+        ResponseCreditEligibility responseCreditEligibility = creditService.checkCredit(clientId,model);
+
+        return ResponseEntity.ok(responseCreditEligibility);
     }
 }
