@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class CreditServiceImpl implements CreditService {
 
-    @Autowired
-    private ClientService clientService;
+    private final ClientService clientService;
 
+    public CreditServiceImpl(ClientService clientService) {
+        this.clientService = clientService;
+    }
 
     @Override
     public ResponseCreditEligibility checkCredit(String clientId, VehicleModel model) {

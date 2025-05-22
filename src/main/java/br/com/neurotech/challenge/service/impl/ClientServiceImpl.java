@@ -6,6 +6,7 @@ import br.com.neurotech.challenge.entity.CreditType;
 import br.com.neurotech.challenge.entity.NeurotechClient;
 import br.com.neurotech.challenge.repository.ClientRepository;
 import br.com.neurotech.challenge.service.ClientService;
+import br.com.neurotech.challenge.service.CreditEvaluatorService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +19,17 @@ public class ClientServiceImpl implements ClientService {
     private ClientRepository clientRepository;
 
     @Autowired
-    private CreditEvaluatorServiceImpl creditEvaluatorService;
+    private CreditEvaluatorService creditEvaluatorService;
 
     @Override
     public String save(CreateClientDTO client) {
+        CreditType creditType = creditEvaluatorService.evaluate(client.age(), client.income());
 
-        CreditType creditType = creditEvaluatorService.evaluate(client.age(),client.income());
+        NeurotechClient neurotechClient = new NeurotechClient(client, creditType);
 
-        NeurotechClient neurotechClient = new NeurotechClient(client,creditType);
+        NeurotechClient savedClient = clientRepository.save(neurotechClient);
 
-        clientRepository.save(neurotechClient);
-
-        return neurotechClient.getId().toString();
+        return savedClient.getId().toString();
     }
 
     @Override
