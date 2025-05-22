@@ -1,39 +1,75 @@
-# Avaliação para admissão de Desenvolvedores para a Neurotech
+# Sistema de Análise de Crédito - API RESTful
+- Este projeto é uma API RESTful desenvolvida em Java 21 com Spring Boot, que realiza a análise e aplicação de diferentes modalidades de crédito para clientes pessoa física, com base em critérios de idade e renda. Também verifica a elegibilidade de crédito automotivo para diferentes modelos de veículos.
+## Requisitos Atendidos
 
-## Instruções
+- Cadastro de clientes (nome, idade, renda)
+- Retorno do cliente por ID
+- Determinação de modalidade de crédito
+- Verificação de elegibilidade para crédito automotivo (Hatch/SUV)
+- Filtro adicional de clientes com crédito fixo e elegíveis para Hatch
+- Banco de dados em memória H2
+- Validações com Bean Validation
+- Documentação via Swagger (OpenAPI)
+- Testes unitários implementados
+- Códigos HTTP adequados (201, 400, 404, 500 etc.)
 
-- Realize o fork deste projeto para desenvolver a sua solução. Não serão aceitos commits diretamente para este repositório;
-- Após o desenvolvimento da sua solução, nos avise, enviando o link do seu projeto para que iniciemos a avaliação. **Não crie Pull Requests!**
-- A solução deve ser entregue em um prazo máximo de 3 dias. 
+## Tecnologias Utilizadas
 
-## Descrição
+- Java 21
+- Spring Boot 3.2.4
+- Spring Web
+- Spring Data JPA
+- H2 Database
+- Swagger/OpenAPI
+- JUnit 5
+- Mockito
+- Maven
 
-Trata-se de um projeto que avalia e aplica modalidades diferentes de crédito a clientes PF, de acordo com critérios específicos. As modalidades diferentes de crédito estão descritas a seguir:
-
--   Crédito com Juros fixos: Aplicado a clientes com idade entre 18 e 25 anos, independente de renda. Taxa de 5% a.a
--   Crédito com Juros variáveis: Aplicado a clientes com idade entre 21 e 65 anos, com renda entre R$ 5000,00 e R$ 15000,00.
--   Crédito Consignado: Aplicado a clientes acima de 65 anos, independente de renda.
-
-O projeto deve ser implantado como uma API RESTful, utilizando a linguagem Java e o framework Springboot. Atentar para implementações típicas de uma API RESTful, como códigos HTTP para cada tipo de endpoint, validação de dados, Documentação utilizando Swagger, e também testes automáticos para os endpoints implementados.
-
-De maneira obrigatória, os seguintes endpoints devem ser implementados:
-
--   Endpoint para cadastro de clientes: Deve receber Informações como Nome, idade, renda. Como retorno, uma entrada no header da resposta contendo a URL que identifica o cliente (Ex: [http://localhost/api/client/050](http://localhost/api/client/050)). O nome do header deve ser “Location”.
-    
--   Endpoint para retornar os dados do cliente de acordo com seu ID, indicado na URL (Ex: [http://localhost/api/client/050](http://localhost/api/client/050)). O retorno deve ser um objeto JSON contendo os dados do cliente. Por exemplo:
-
+## Como Executar o Projeto
+1. Clone o repositório:
+``` bash
+git clone https://github.com/Davi-pontes/challenge-java-developer.git
+cd challenge-java-developer
 ```
-{ 
-  "Name": "Bob",
-  "Age": 40,
-  "Income": 10000
-}
+2. Compile o projeto:
+``` bash
+./mvnw clean install
 ```
--   Endpoint para definir se um determinado cliente está apto a oferecer um crédito automotivo para determinado modelo de veículo.
-    -   Hatch: Renda entre R$ 5000,00 e R$15000,00.
-    -   SUV: Renda acima de R$8000,00 e idade superior a 20 anos.
-    
+3. Execute a aplicação:
+``` bash
+./mvnw spring-boot:run
+```
+4. Acesse a API via Swagger:
+```
+http://localhost:5000/swagger-ui/index.html
+```
+## Teste
+Para rodar os testes automatizados:
+``` bash
+./mvnw test
+```
+## Banco de dados
+- Banco: H2(em memória)
+- Console Web: Disponível em http://localhost:8080/h2-console
+- Credenciais padrão:
+  - JDBC URL: jdbc:h2:mem:testdb
+  - Usuário: admin
+  - Senha: admin
+> O banco H2 é embarcado e já vem configurado no projeto. Não é necessário instalar nada separadamente.
+  O link oficial está disponível para fins de documentação ou uso avançado: https://www.h2database.com/html/main.html
 
-Como adicional, mas não obrigatório, implemente um endpoint para se determinar todos os clientes entre 23 e 49 anos que possuem Crédito com juros fixos e estão aptos a adquirirem crédito automotivo para veículos do tipo Hatch. O objeto de retorno deve conter uma lista com o nome e a renda de cada um destes clientes.
+## Regras de crédito
+| Modalidade      | Critérios                                                | Taxa     |
+| --------------- | -------------------------------------------------------- | -------- |
+| Juros Fixos     | Idade entre 18 e 25 anos                                 | 5% a.a   |
+| Juros Variáveis | Idade entre 21 e 65 anos, renda entre R\$5000 e R\$15000 | Dinâmico |
+| Consignado      | Idade acima de 65 anos                                   | N/A      |
 
-Boa sorte!
+### Crédito automotivo
+- Hatch: Renda entre R$5000 e R$15000
+- SUV: Renda acima de R$8000 e idade superior a 20 anos
+
+### Filtro adicional (extra):
+- Endpoint para listar todos os clientes entre 23 e 49 anos com crédito fixo e aptos para Hatch.
+
+Obrigado pela oportunidade!
