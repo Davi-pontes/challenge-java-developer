@@ -78,9 +78,26 @@ public class ClientController {
         return  ResponseEntity.ok(clientDTO);
     }
     @GetMapping("/{id}/car-credit")
+    @Operation(
+            summary = "Verificar elegibilidade de crédito para veículo",
+            description = "Verifica se um cliente é elegível para crédito na compra de um veículo específico."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Elegibilidade verificada com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseCreditEligibility.class))),
+            @ApiResponse(responseCode = "400", description = "Parâmetros inválidos", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Cliente não encontrado", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     public ResponseEntity<ResponseCreditEligibility> checkCarCreditEligibility(
-            @PathVariable("id") String clientId,
-            @RequestParam VehicleModel model
+            @PathVariable("id")
+            @Parameter(description = "ID do cliente", required = true, example = "1")
+            @NotBlank(message = "O ID do cliente é obrigatório.")
+            String clientId,
+
+            @RequestParam
+            @Parameter(description = "Modelo do veículo para análise de crédito", required = true, example = "HATCH")
+            VehicleModel model
     ){
         ResponseCreditEligibility responseCreditEligibility = creditService.checkCredit(clientId,model);
 
