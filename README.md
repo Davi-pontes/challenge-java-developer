@@ -11,6 +11,7 @@
 - Validações com Bean Validation
 - Documentação via Swagger (OpenAPI)
 - Testes unitários implementados
+- Testes de integração implementados
 - Códigos HTTP adequados (201, 400, 404, 500 etc.)
 
 ## Tecnologias Utilizadas

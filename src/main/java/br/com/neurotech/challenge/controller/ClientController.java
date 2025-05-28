@@ -4,11 +4,9 @@ import br.com.neurotech.challenge.dto.CreateClientDTO;
 import br.com.neurotech.challenge.dto.ResponseClientDTO;
 import br.com.neurotech.challenge.dto.ResponseClientEligibleForHatch;
 import br.com.neurotech.challenge.dto.ResponseCreditEligibility;
-import br.com.neurotech.challenge.entity.NeurotechClient;
 import br.com.neurotech.challenge.entity.VehicleModel;
+import br.com.neurotech.challenge.service.ClientService;
 import br.com.neurotech.challenge.service.CreditService;
-import br.com.neurotech.challenge.service.impl.ClientServiceImpl;
-import br.com.neurotech.challenge.service.impl.CreditServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -31,10 +29,10 @@ import java.util.List;
 @Tag(name = "Clientes", description = "Operações relacionadas a clientes")
 public class ClientController {
 
-    private final ClientServiceImpl clientService;
-    private final CreditServiceImpl creditService;
+    private final ClientService clientService;
+    private final CreditService creditService;
 
-    public ClientController(ClientServiceImpl clientService, CreditServiceImpl creditService) {
+    public ClientController(ClientService clientService, CreditService creditService) {
         this.clientService = clientService;
         this.creditService = creditService;
     }

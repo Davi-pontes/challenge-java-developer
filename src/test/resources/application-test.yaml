@@ -2,8 +2,8 @@ spring:
   datasource:
     url: jdbc:h2:tcp://localhost/~/test-challenge-neurotech
     driver-class-name: org.h2.Driver
-    username: admin
-    password: admin
+    username: test
+    password: test
   h2:
     console:
       enabled: true
@@ -11,4 +11,4 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     defer-datasource-initialization: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
